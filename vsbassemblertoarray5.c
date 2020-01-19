@@ -169,8 +169,10 @@ void vsbpage(FILE *target, char *location) {
   int v;
   int data;
   char c;
+  int count;
   mapped = fopen(location, "r");
-  for (k = 0; k < 5; k++, fprintf(target, "\n\n\n"))
+  for (k = 0, count = 0; k < 5;
+       fprintf(target, " number of elements:%d\n\n\n", count), k++, count = 0)
     for (j = 0; j < (1 << 16); j += 128) {
       fclose(mapped);
       mapped = fopen(location, "r");
@@ -190,6 +192,7 @@ void vsbpage(FILE *target, char *location) {
       }
       if (!data)
 	continue;
+      count++;
       fprintf(target, "0x");
       for (i = 0, ba = j; i < 4; i++, ba = (ba << 4) % (1 << 16))
 	if (ba / (1 << 12) <= 9)
@@ -207,12 +210,14 @@ void vsbpage(FILE *target, char *location) {
 	  else
 	    v = c-'a'+10;
 	if ((ba/128)*128 == j) {
+	  count++;
 	  fprintf(target, "0x");
 	  for (i = 0, v = ba%128; i < 2; i++, v = (v << 4)%(1 << 8))
 	    if (v/(1 << 4) <= 9)
 	      fprintf(target, "%c", (v/(1 << 4))+'0');
 	    else
 	      fprintf(target, "%c", (v/(1 << 4))+'a'-10);
+	  count++;
 	  fprintf(target, ", 0x");
 	  for (i = 0; i < 2*k; i++)
 	    fgetc(mapped);
