@@ -226,6 +226,6 @@ void vsbpage(FILE *target, char *location) {
 	  for (i = 0; i < 10; i++)
 	    fgetc(mapped);
       }
-      fprintf(target, "\n");
+      fprintf(target, "%d, ", -1);
     }
 }
