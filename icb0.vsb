@@ -1,0 +1,562 @@
+0000 adr0 ffff 0001 /reset (reset to 15 since immediately incremented, so rolls over to 0)
+0001 adr1 0000 0002
+0002 buf1 0000 0003
+
+0003 adr0 ffff 0004
+0004 adr1 0001 0005
+0005 buf1 0000 0006
+
+0006 adr0 ffff 0007
+0007 adr1 0002 0008
+0008 buf1 0000 0009
+
+0009 adr0 ffff 000a
+000a adr1 0003 000b
+000b buf1 0000 1000
+
+1000 adr0 ffff 1001 /add 1
+1001 adr1 0000 1002 /0x0000 is ones digit; 0x0003 is 8s digit
+1002 jmpr 0000 1004
+1004 buf1 0000 1800
+1005 buf0 0000 1010
+
+1010 adr0 ffff 1011
+1011 adr1 0001 1012
+1012 jmpr 0000 1014
+1014 buf1 0000 1804
+1015 buf0 0000 1020
+
+1020 adr0 ffff 1021
+1021 adr1 0002 1022
+1022 jmpr 0000 1024
+1024 buf1 0000 1808
+1025 buf0 0000 1030
+
+1030 adr0 ffff 1031
+1031 adr1 0003 1032
+1032 jmpr 0000 1034
+1034 buf1 0000 2000
+1035 buf0 0000 2000
+
+1800 out1 0000 1801 /equalize clock cycles spent to add
+1801 out1 0000 1802
+1802 out1 0000 1803
+1803 out1 0000 1804
+
+1804 out1 0000 1805
+1805 out1 0000 1806
+1806 out1 0000 1807
+1807 out1 0000 1808
+
+1808 out1 0000 1809
+1809 out1 0000 180a
+180a out1 0000 180b
+180b out1 0000 2000
+
+2000 adr0 ffff 2001 /initialization
+2001 adr1 1800 2002
+2002 buf0 0000 2010
+
+2010 adr0 ffff 2011 /getting values
+2011 adr1 0000 2012
+2012 jmpr 0000 2014
+2014 out1 0000 3000
+2015 out1 0000 4000
+
+2020 adr0 ffff 2021
+2021 adr1 0001 2022
+2022 jmpr 0000 2024
+2024 out1 0000 3000
+2025 out1 0000 4000
+
+2030 adr0 ffff 2031
+2031 adr1 0002 2032
+2032 jmpr 0000 2034
+2034 out1 0000 3000
+2035 out1 0000 4000
+
+2040 adr0 ffff 2041
+2041 adr1 0003 2042
+2042 jmpr 0000 2044
+2044 out1 0000 3000
+2045 out1 0000 4000
+
+
+3000 adr0 ffff 3001 /if the value is a zero - bit 0
+3001 adr1 1800 3002
+3002 jmpr 0000 3004
+3004 out1 0000 3006 /this is end of path
+3005 out1 0000 300d /this is not end of path
+
+3006 buf1 0000 3007 /set this as not being end
+3007 adr0 fff1 3008
+3008 adr1 1810 3009
+3009 buf0 0000 300a /set what will be the next address (by changing the 1 bit that is being worked on right now) as the end
+300a adr0 fff1 300b
+300b adr1 1000 300c
+300c buf0 0000 2020 /write value so the program knows what to make the next address
+
+300d adr0 fff0 300e
+300e adr1 1000 300f
+300f jmpr 0000 3010 /seeing where to lead path as end
+3010 adr0 0001 3100
+3011 adr1 0001 3100
+
+
+3100 adr0 fff0 3101 /bit 1
+3101 adr1 1810 3102
+3102 jmpr 0000 3104
+3104 out1 0000 3106 /this is end of path
+3105 out1 0000 310d /this is not end of path
+
+3106 buf1 0000 3107 /set this as not being end
+3107 adr0 fff2 3108
+3108 adr1 1820 3109
+3109 buf0 0000 310a /set what will be the next address (by changing the 1 bit that is being worked on right now) as the end
+310a adr0 fff2 310b
+310b adr1 1010 310c
+310c buf0 0000 2030 /write value so the program knows what to make the next address
+
+310d adr0 fff0 310e
+310e adr1 1010 310f
+310f jmpr 0000 3110 /seeing where to lead path as end
+3110 adr0 0002 3200
+3111 adr1 0002 3200
+
+
+3200 adr0 fff0 3201 /bit 2
+3201 adr1 1820 3202
+3202 jmpr 0000 3204
+3204 out1 0000 3206 /this is end of path
+3205 out1 0000 320d /this is not end of path
+
+3206 buf1 0000 3207 /set this as not being end
+3207 adr0 fff4 3208
+3208 adr1 1830 3209
+3209 buf0 0000 320a /set what will be the next address (by changing the 1 bit that is being worked on right now) as the end
+320a adr0 fff4 320b
+320b adr1 1020 320c
+320c buf0 0000 2040 /write value so the program knows what to make the next address
+
+320d adr0 fff0 320e
+320e adr1 1020 320f
+320f jmpr 0000 3210 /seeing where to lead path as end
+3210 adr0 0004 3300
+3211 adr1 0004 3300
+
+
+3300 adr0 fff0 3301 /add on last bit and clear rest of number
+3301 adr1 1030 5000
+
+
+4000 adr0 ffff 4001 /if the value is a one - bit 0
+4001 adr1 1800 4002
+4002 jmpr 0000 4004
+4004 out1 0000 4006 /this is the end of the path
+4005 out1 0000 400d /this is not the end of the path
+
+4006 buf1 0000 4007 /set this as not being the end
+4007 adr0 fff1 4008
+4008 adr1 1811 4009
+4009 buf0 0000 400a /set what will be the next address (by changing the 1 bit that is worked on right now) as the end
+400a adr0 fff1 400b
+400b adr1 1000 400c
+400c buf1 0000 2020 /write value so program knows where to make next address
+
+400d adr0 fff0 400e
+400e adr1 1000 400f
+400f jmpr 0000 4010 /seeing where to lead path as end
+4010 adr0 0001 4100
+4011 adr1 0001 4100
+
+
+4100 adr0 fff0 4101 /bit 1
+4101 adr1 1810 4102
+4102 jmpr 0000 4104
+4104 out1 0000 4106 /this is the end of the path
+4105 out1 0000 410d /this is not the end of the path
+
+4106 buf1 0000 4107 /set this as not being the end
+4107 adr0 fff2 4108
+4108 adr1 1822 4109
+4109 buf0 0000 410a /set what will be the next address (by changing the 1 bit that is worked on right now) as the end
+410a adr0 fff2 410b
+410b adr1 1010 410c
+410c buf1 0000 2030 /write value so program knows where to make next address
+
+410d adr0 fff0 410e
+410e adr1 1010 410f
+410f jmpr 0000 4110 /seeing where to lead path as end
+4110 adr0 0002 4200
+4111 adr1 0002 4200
+
+
+4200 adr0 fff0 4201 /bit 2
+4201 adr1 1820 4202
+4202 jmpr 0000 4204
+4204 out1 0000 4206 /this is the end of the path
+4205 out1 0000 420d /this is not the end of the path
+
+4206 buf1 0000 4207 /set this as not being the end
+4207 adr0 fff4 4208
+4208 adr1 1834 4209
+4209 buf0 0000 420a /set what will be the next address (by changing the 1 bit that is worked on right now) as the end
+420a adr0 fff4 420b
+420b adr1 1020 420c
+420c buf1 0000 2040 /write value so program knows where to make next address
+
+420d adr0 fff0 420e
+420e adr1 1020 420f
+420f jmpr 0000 4210 /seeing where to lead path as end
+4210 adr0 0004 4300
+4211 adr1 0004 4300
+
+
+4300 adr0 fff0 4301 /set address properly and write last bit of address
+4301 adr1 1038 5000
+
+
+5000 jmpi 0001 5002
+5002 out1 0000 5004 /reset number if input held low
+5003 out1 0000 5005
+
+5004 buf0 0000 5100 /divert to printing 0 (continues to next digit afterward)
+
+5005 jmpr 0000 5006 /test value
+5006 buf1 ffff 5200 /flip to one
+5007 buf0 ffff 5100 /flip to zero
+
+
+5100 adr0 ffff 5101 /printing 0
+5101 adr1 0003 5102 /3rd digit
+5102 jmpr 0000 5104
+5104 adr0 ffff 5110
+5105 adr0 ffff 5120
+
+
+5110 adr0 ffff 5111 /2nd digit
+5111 adr1 0002 5112
+5112 jmpr 0000 5114
+5114 adr0 ffff 5130
+5115 adr0 ffff 5140
+
+5120 adr0 ffff 5121
+5121 adr1 0002 5122
+5122 jmpr 0000 5124
+5124 adr0 ffff 5150
+5125 adr0 ffff 5160
+
+
+5130 adr0 ffff 5131 /1st digit
+5131 adr1 0001 5132
+5132 jmpr 0000 5134
+5134 adr0 ffff 5170
+5135 adr0 ffff 5180
+
+5140 adr0 ffff 5141
+5141 adr1 0001 5142
+5142 jmpr 0000 5144
+5144 adr0 ffff 5190
+5145 adr0 ffff 51a0
+
+5150 adr0 ffff 5151
+5151 adr1 0001 5152
+5152 jmpr 0000 5154
+5154 adr0 ffff 51b0
+5155 adr0 ffff 51c0
+
+5160 adr0 ffff 5161
+5161 adr1 0001 5162
+5162 jmpr 0000 5164
+5164 adr0 ffff 51d0
+5165 adr0 ffff 51e0
+
+
+5170 adr0 ffff 5171 /0th digit
+5171 adr1 0000 5172
+5172 jmpr 0000 5174
+5174 adr0 ffff 5400
+5175 adr0 ffff 5401
+
+5180 adr0 ffff 5181
+5181 adr1 0000 5182
+5182 jmpr 0000 5184
+5184 adr0 ffff 5402
+5185 adr0 ffff 5403
+
+5190 adr0 ffff 5191
+5191 adr1 0000 5192
+5192 jmpr 0000 5194
+5194 adr0 ffff 5404
+5195 adr0 ffff 5405
+
+51a0 adr0 ffff 51a1
+51a1 adr1 0000 51a2
+51a2 jmpr 0000 51a4
+51a4 adr0 ffff 5406
+51a5 adr0 ffff 5407
+
+51b0 adr0 ffff 51b1 /still 0th digit
+51b1 adr1 0000 51b2
+51b2 jmpr 0000 51b4
+51b4 adr0 ffff 5408
+51b5 adr0 ffff 5409
+
+51c0 adr0 ffff 51c1
+51c1 adr1 0000 51c2
+51c2 jmpr 0000 51c4
+51c4 adr0 ffff 540a
+51c5 adr0 ffff 540b
+
+51d0 adr0 ffff 51d1
+51d1 adr1 0000 51d2
+51d2 jmpr 0000 51d4
+51d4 adr0 ffff 540c
+51d5 adr0 ffff 540d
+
+51e0 adr0 ffff 51e1
+51e1 adr1 0000 51e2
+51e2 jmpr 0000 51e4
+51e4 adr0 ffff 540e
+51e5 adr0 ffff 540f
+
+
+5400 out0 0001 1000 /actually print it
+5401 out0 0002 1000
+5402 out0 0004 1000
+5403 out0 0008 1000
+5404 out0 0010 1000
+5405 out0 0020 1000
+5406 out0 0040 1000
+5407 out0 0080 1000
+
+5408 out0 0100 1000
+5409 out0 0200 1000
+540a out0 0400 1000
+540b out0 0800 1000
+540c out0 1000 1000
+540d out0 2000 1000
+540e out0 4000 1000
+540f out0 8000 6000 /goes to loop anyway; has to reset to 0 so that testing can occur; adds and extra 139 extra cycles even when all digits are printed already
+
+
+
+5200 adr0 ffff 5201 /printing 1
+5201 adr1 0003 5202 /3rd digit
+5202 jmpr 0000 5204
+5204 adr0 ffff 5210
+5205 adr0 ffff 5220
+
+
+5210 adr0 ffff 5211 /2nd digit
+5211 adr1 0002 5212
+5212 jmpr 0000 5214
+5214 adr0 ffff 5230
+5215 adr0 ffff 5240
+
+5220 adr0 ffff 5221
+5221 adr1 0002 5222
+5222 jmpr 0000 5224
+5224 adr0 ffff 5250
+5225 adr0 ffff 5260
+
+
+5230 adr0 ffff 5231 /1st digit
+5231 adr1 0001 5232
+5232 jmpr 0000 5234
+5234 adr0 ffff 5270
+5235 adr0 ffff 5280
+
+5240 adr0 ffff 5241
+5241 adr1 0001 5242
+5242 jmpr 0000 5244
+5244 adr0 ffff 5290
+5245 adr0 ffff 52a0
+
+5250 adr0 ffff 5251
+5251 adr1 0001 5252
+5252 jmpr 0000 5254
+5254 adr0 ffff 52b0
+5255 adr0 ffff 52c0
+
+5260 adr0 ffff 5261
+5261 adr1 0001 5262
+5262 jmpr 0000 5264
+5264 adr0 ffff 52d0
+5265 adr0 ffff 52e0
+
+
+5270 adr0 ffff 5271 /0th digit
+5271 adr1 0000 5272
+5272 jmpr 0000 5274
+5274 adr0 ffff 5800
+5275 adr0 ffff 5801
+
+5280 adr0 ffff 5281
+5281 adr1 0000 5282
+5282 jmpr 0000 5284
+5284 adr0 ffff 5802
+5285 adr0 ffff 5803
+
+5290 adr0 ffff 5291
+5291 adr1 0000 5292
+5292 jmpr 0000 5294
+5294 adr0 ffff 5804
+5295 adr0 ffff 5805
+
+52a0 adr0 ffff 52a1
+52a1 adr1 0000 52a2
+52a2 jmpr 0000 52a4
+52a4 adr0 ffff 5806
+52a5 adr0 ffff 5807
+
+52b0 adr0 ffff 52b1 /still 0th digit
+52b1 adr1 0000 52b2
+52b2 jmpr 0000 52b4
+52b4 adr0 ffff 5808
+52b5 adr0 ffff 5809
+
+52c0 adr0 ffff 52c1
+52c1 adr1 0000 52c2
+52c2 jmpr 0000 52c4
+52c4 adr0 ffff 580a
+52c5 adr0 ffff 580b
+
+52d0 adr0 ffff 52d1
+52d1 adr1 0000 52d2
+52d2 jmpr 0000 52d4
+52d4 adr0 ffff 580c
+52d5 adr0 ffff 580d
+
+52e0 adr0 ffff 52e1
+52e1 adr1 0000 52e2
+52e2 jmpr 0000 52e4
+52e4 adr0 ffff 580e
+52e5 adr0 ffff 580f
+
+
+5800 out1 0001 6000 /actually print it
+5801 out1 0002 6000
+5802 out1 0004 6000
+5803 out1 0008 6000
+5804 out1 0010 6000
+5805 out1 0020 6000
+5806 out1 0040 6000
+5807 out1 0080 6000
+
+5808 out1 0100 6000
+5809 out1 0200 6000
+580a out1 0400 6000
+580b out1 0800 6000
+580c out1 1000 6000
+580d out1 2000 6000
+580e out1 4000 6000 /this set of instructions equalizes the time required to add
+580f out1 8000 6000 /goes to loop anyway; has to reset to 0 so that testing can occur; adds and extra 139 extra cycles even when all digits are printed already
+
+
+
+6000 adr0 ffff 6001 /reset to 0; all this does is declare a variable to index and waste time
+6001 adr1 2000 6002 /delaying to equalize so that in total each increment takes 2375 instructions
+6002 buf0 0000 6003
+
+6003 adr0 ffff 6004
+6004 adr1 2001 6005
+6005 buf0 0000 6006
+
+6006 adr0 ffff 6007
+6007 adr1 2002 6008
+6008 buf0 0000 6010
+
+
+6010 out0 0000 6011 /padding up to 139 instructions
+6011 out0 0000 6012
+6012 out0 0000 6013
+6013 out0 0000 6014
+6014 out0 0000 6015
+6015 out0 0000 6016
+6016 out0 0000 6017
+6017 out0 0000 6018
+
+6018 out0 0000 6019
+6019 out0 0000 601a
+601a out0 0000 601b
+601b out0 0000 601c
+601c out0 0000 601d
+601d out0 0000 601e
+601e out0 0000 601f
+601f out0 0000 6020
+
+6020 out0 0000 6021
+6021 out0 0000 6100
+
+
+6100 adr0 ffff 6101 /add 1 to actual total
+6101 adr1 2000 6102 /0x2000 is ones digit; 0x2002 is 4s digit
+6102 jmpr 0000 6104
+6104 buf1 0000 6200
+6105 buf0 0000 6110
+
+6110 adr0 ffff 6111
+6111 adr1 2001 6112
+6112 jmpr 0000 6114
+6114 buf1 0000 6204
+6115 buf0 0000 6120
+
+6120 adr0 ffff 6121
+6121 adr1 2002 6122
+6122 jmpr 0000 6124
+6124 buf1 0000 6100
+6125 buf0 0000 6700 /has done 8 cycles, so it is done and can move on
+
+
+6200 out1 0000 6201 /equalize clock cycles spent to add to index
+6201 out1 0000 6202
+6202 out1 0000 6203
+6203 out1 0000 6204
+
+6204 out1 0000 6205
+6205 out1 0000 6206
+6206 out1 0000 6207
+6207 out1 0000 6100
+
+
+
+6700 adr0 ffff 6701 /add 1; delaying to equalize so that in total each increment takes 2236 instructions
+6701 adr1 0000 6702 /0x0000 is ones digit; 0x0003 is 8s digit
+6702 jmpr 0000 6704
+6704 buf1 0000 6800
+6705 buf0 0000 6710
+
+6710 adr0 ffff 6711
+6711 adr1 0001 6712
+6712 jmpr 0000 6714
+6714 buf1 0000 6804
+6715 buf0 0000 6720
+
+6720 adr0 ffff 6721
+6721 adr1 0002 6722
+6722 jmpr 0000 6724
+6724 buf1 0000 6808
+6725 buf0 0000 6730
+
+6730 adr0 ffff 6731
+6731 adr1 0003 6732
+6732 jmpr 0000 6734
+6734 buf1 0000 6000
+6735 buf0 0000 0000 /is set to 0 so fully cycled to waste time and can go back to start of entire program
+
+
+6800 out1 0000 6801 /equalize clock cycles spent to add to index
+6801 out1 0000 6802
+6802 out1 0000 6803
+6803 out1 0000 6804
+
+6804 out1 0000 6805
+6805 out1 0000 6806
+6806 out1 0000 6807
+6807 out1 0000 6808
+
+6808 out1 0000 6809
+6809 out1 0000 680a
+680a out1 0000 680b
+680b out1 0000 6000
