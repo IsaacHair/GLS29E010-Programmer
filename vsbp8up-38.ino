@@ -36,7 +36,7 @@ void setup() {
     while (errors()) {
       Serial.print("page:");
       Serial.print(prog.adr);
-      Serial.print(" errors:");
+      Serial.print(" write errors:");
       Serial.println(i);
       Serial.flush();
       delay(500);
@@ -48,15 +48,15 @@ void setup() {
     if (errors()) {
       Serial.print("page:");
       Serial.print(prog.adr);
-      Serial.print(" errors:");
+      Serial.print(" read errors:");
       Serial.println(i);
       Serial.flush();
     }
     toterrb += errors();
   }
-  Serial.print("apparent errors:");
+  Serial.print("apparent write errors:");
   Serial.print(toterra);
-  Serial.print(" overall errors first read:");
+  Serial.print(" overall read errors:");
   Serial.println(toterrb);
   Serial.flush();
 }
@@ -64,12 +64,12 @@ void setup() {
 int grabpage() {
   int i, j;
   i = examplec;
-  if (example[i] == -2)
+  if (example[i] == 0xfffe)
     return (0);
   prog.adr = example[i];
   i++;
   for (j = 0; 1; j++)
-    if (example[i] == -1) {
+    if (example[i] == 0xffff) {
       prog.len = j;
       examplec = i+1;
       return (1);
