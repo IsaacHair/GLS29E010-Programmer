@@ -1,0 +1,35 @@
+/run at 500Hz to allow time for lcd executions
+/pins 8-15 on vsbp8 map to data 0-7 on the lcd
+/paired in reverse order; vsbp8 pin 8 maps to lcd pin 7,
+/vsbp8 pin 9 maps to lcd pin 6, etc
+/7 maps to lcd E, 6 maps to lcd RW, 5 maps to lcd RS
+
+/delay while internal lcd reset occurs
+0000 out0 ffff 0001
+0001 out0 ffff 0002
+0002 out0 ffff 0003
+0003 out0 ffff 0010
+/set operation mode to 8 pixel, 1 line operation
+
+0010 out0 ffff 0011
+0011 out1 0030 0012
+0012 out1 0100 0013
+0013 out0 0100 0020
+
+/display control
+0020 out0 ffff 0021
+0021 out1 000e 0022
+0022 out1 0100 0023
+0023 out0 0100 0030
+
+/set the cursor/text writing mode
+0030 out0 ffff 0031
+0031 out1 0006 0032
+0032 out1 0100 0033
+0033 out0 0100 0040
+
+/write ASCII data
+0040 out0 ffff 0041
+0041 out1 0441 0042
+0042 out1 0100 0043
+0043 out0 0100 0040
