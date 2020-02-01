@@ -2,3 +2,31 @@
 /define a ram pointer array; allows for arbitrary access
 /driver for LCD (parallel interface, hitachi hm44780)
 /driver for keyboard (serial interface, don't know what it is yet)
+/note: this language NEEDS macros and automatic/maual program counting options
+/note: NEED nesting ability for macros in assembler
+/note: NEED error detection in assembler
+/example: prevent invalid syntax from breaking output
+/prevent infinite loops if macro nesting refers back to itself
+
+/macros: first variable is the address; if you set an address as 0000 in the path, it will go here
+/set address as 0001, it will go there shifted up one
+/set address to ffff, it will go to one less than the first variable (it adds and ends up wrapping around to adr-1)
+/assembler has + - / * operators for unsigned 16 bit integers
+
+/must define a macro before it is used
+/this simplifies assembling process and prevents infinite assembling loops
+
+/note: should add support for multiple writes to a page
+/simplifies code writing process
+/for function calls, the function escape jumps can be overwritten to the correct place
+/maybe good, maybe too complicated and messy
+
+#define .call(A, B, C, D, E, F) /A is this .call address, B is pointer to old flag
+/C is pointer to new flag, D is function address, E is the return address from this .call
+/F is the next .call for this function
+0000 adr0 ffff 0001 /set old flag to zero
+0001 adr1 f000+B 0002
+0002 buf0 0000 0003
+0003 adr0 ffff 0004 /set new flag to one
+0004 adr1 f000+C 0005
+0005 buf1 0000 D /go to function
