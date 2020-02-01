@@ -1,0 +1,4 @@
+/define a function call array; allows for recursion
+/define a ram pointer array; allows for arbitrary access
+/driver for LCD (parallel interface, hitachi hm44780)
+/driver for keyboard (serial interface, don't know what it is yet)
