@@ -1,0 +1,47 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+void main(int argc, char* argv[]) {
+  FILE *source = fopen(argv[1], "r");
+  FILE *dump = fopen(argv[2], "w");
+  char c;
+  int num;
+  while ((c = fgetc(source)) != '0')
+    1;
+  for (num = 0; c != EOF; c = fgetc(source))
+    if (c >= '0' && c <= '9')
+      if (num == 0)
+	num = 1;
+      else
+	fprintf(dump, "%c", c);
+    else if ((c >= 'a' && c <= 'z') && c != 'x') {
+      num = 1;
+      fprintf(dump, "%c", c);
+    }
+    else if (c >= 'A' && c <= 'Z') {
+      num = 1;
+      fprintf(dump, "%c", c+'a'-'A');
+    }
+    else if (c == ' ') {
+      num = 0;
+      fprintf(dump, " ");
+    }
+    else if (c == '\n') {
+      while ((c = fgetc(source)) != '0')
+	if (c == '\n')
+	  fprintf(dump, "\n");
+      num = 1;
+      fprintf(dump, "\n");
+    }
+    else if (c == '/') {
+      while ((c = fgetc(source)) != '\n')
+	fprintf(dump, "%c", c);
+      while ((c = fgetc(source)) != '0')
+        if (c == '\n')
+	  fprintf(dump, "\n");
+      num = 1;
+      fprintf(dump, "\n");
+    }
+  fclose(source);
+  fclose(dump);
+}
